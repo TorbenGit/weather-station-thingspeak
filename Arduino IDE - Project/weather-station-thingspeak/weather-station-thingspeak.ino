@@ -46,6 +46,12 @@ void readsensor(void) {
   hum = igeshum/teiler;
 }
 
+void control(void) {
+  if (tem < -10 or tem > 50 or hum < 0 or hum > 100) {
+    ESP.reset();
+  }
+}
+
 void sendsensor(void) { 
   ThingSpeak.begin(client);
   
@@ -67,6 +73,7 @@ void sendsensor(void) {
 void setup() { 
   wlan();
   readsensor();
+  control();
   sendsensor();
   ESP.deepSleep(9e8); //reset after 15 minutes
 }
